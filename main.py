@@ -3,6 +3,7 @@ import random
 import string
 import uuid
 import requests
+from keep_alive import keep_alive  # Import the keep_alive function
 
 # Your Telegram bot token
 TOKEN = '7822965732:AAGuyrZAolVUHN88it8DSkbT9LBEM5_-hHg'
@@ -94,7 +95,8 @@ def handle_reset(message):
     except Exception as e:
         bot.reply_to(message, f"An error occurred: {str(e)}")
 
-# Start the bot
+# Keep the bot alive with the keep_alive function
 if __name__ == '__main__':
+    keep_alive()  # Start the Flask server to keep the bot alive
     print("Bot is running...")
     bot.polling()
