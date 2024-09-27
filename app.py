@@ -1,4 +1,3 @@
-from flask import Flask, request
 import telebot
 import random
 import string
@@ -10,8 +9,6 @@ TOKEN = '7822965732:AAGuyrZAolVUHN88it8DSkbT9LBEM5_-hHg'
 
 # Initialize the bot
 bot = telebot.TeleBot(TOKEN)
-
-app = Flask(__name__)
 
 class InstagramPasswordReset:
     def __init__(self, username):
@@ -73,16 +70,6 @@ class InstagramPasswordReset:
             # Handle any request-related errors
             return f"Error sending password reset request: {str(e)}"
 
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    try:
-        json_str = request.get_data(as_text=True)
-        update = telebot.types.Update.de_json(json_str)
-        bot.process_new_updates([update])
-        return 'ok', 200
-    except Exception as e:
-        return f"An error occurred: {str(e)}", 500
-
 # Command handler for /reset command
 @bot.message_handler(commands=['reset'])
 def handle_reset(message):
@@ -107,5 +94,7 @@ def handle_reset(message):
     except Exception as e:
         bot.reply_to(message, f"An error occurred: {str(e)}")
 
+# Start the bot
 if __name__ == '__main__':
-    app.run()
+    print("Bot is running...")
+    bot.polling()
